@@ -1,0 +1,92 @@
+<h2>¿Qué color de acento preferís?</h2>
+<p class="subtitle">Sobre fondo oscuro (#0f172a). El acento se usa en el día de hoy, el seleccionado, botones y chips de recordatorios.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="indigo" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a; padding:20px; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex;gap:8px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:#6366f1;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;">28</div>
+        <div style="flex:1;background:#1e293b;border-radius:10px;padding:8px 12px;border-left:3px solid #6366f1;">
+          <div style="color:#e2e8f0;font-size:11px;font-weight:600;">Reunion cliente</div>
+          <div style="color:#6366f1;font-size:10px;">10:00</div>
+        </div>
+      </div>
+      <div style="background:#6366f1;border-radius:10px;padding:10px 14px;color:white;font-size:12px;font-weight:700;text-align:center;">Guardar recordatorio</div>
+      <div style="display:flex;gap:6px;">
+        <div style="background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);border-radius:20px;padding:4px 10px;color:#818cf8;font-size:10px;">09:00 · Gym</div>
+        <div style="background:#1e293b;border-radius:20px;padding:4px 10px;color:#475569;font-size:10px;">+2 más</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Índigo</h3>
+      <p>#6366f1 — Clásico tech, usado por Linear, Notion, Supabase. Muy limpio sobre oscuro.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="cyan" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a; padding:20px; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex;gap:8px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:#06b6d4;display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:800;font-size:14px;">28</div>
+        <div style="flex:1;background:#1e293b;border-radius:10px;padding:8px 12px;border-left:3px solid #06b6d4;">
+          <div style="color:#e2e8f0;font-size:11px;font-weight:600;">Reunion cliente</div>
+          <div style="color:#06b6d4;font-size:10px;">10:00</div>
+        </div>
+      </div>
+      <div style="background:#06b6d4;border-radius:10px;padding:10px 14px;color:#0f172a;font-size:12px;font-weight:700;text-align:center;">Guardar recordatorio</div>
+      <div style="display:flex;gap:6px;">
+        <div style="background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.3);border-radius:20px;padding:4px 10px;color:#22d3ee;font-size:10px;">09:00 · Gym</div>
+        <div style="background:#1e293b;border-radius:20px;padding:4px 10px;color:#475569;font-size:10px;">+2 más</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Cian</h3>
+      <p>#06b6d4 — Futurista, vibe tech premium. Usado por Vercel, GitHub dark. Muy visible sobre fondo oscuro.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="emerald" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a; padding:20px; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex;gap:8px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:#10b981;display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:800;font-size:14px;">28</div>
+        <div style="flex:1;background:#1e293b;border-radius:10px;padding:8px 12px;border-left:3px solid #10b981;">
+          <div style="color:#e2e8f0;font-size:11px;font-weight:600;">Reunion cliente</div>
+          <div style="color:#10b981;font-size:10px;">10:00</div>
+        </div>
+      </div>
+      <div style="background:#10b981;border-radius:10px;padding:10px 14px;color:#0f172a;font-size:12px;font-weight:700;text-align:center;">Guardar recordatorio</div>
+      <div style="display:flex;gap:6px;">
+        <div style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:4px 10px;color:#34d399;font-size:10px;">09:00 · Gym</div>
+        <div style="background:#1e293b;border-radius:20px;padding:4px 10px;color:#475569;font-size:10px;">+2 más</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Esmeralda</h3>
+      <p>#10b981 — Verde vibrante, fresco, moderno. Vibe "activo y organizado". Parecido al color original del proyecto pero más vibrante.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="violet" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f172a; padding:20px; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex;gap:8px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#a855f7);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:14px;">28</div>
+        <div style="flex:1;background:#1e293b;border-radius:10px;padding:8px 12px;border-left:3px solid #8b5cf6;">
+          <div style="color:#e2e8f0;font-size:11px;font-weight:600;">Reunion cliente</div>
+          <div style="color:#a78bfa;font-size:10px;">10:00</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#8b5cf6,#a855f7);border-radius:10px;padding:10px 14px;color:white;font-size:12px;font-weight:700;text-align:center;">Guardar recordatorio</div>
+      <div style="display:flex;gap:6px;">
+        <div style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);border-radius:20px;padding:4px 10px;color:#c4b5fd;font-size:10px;">09:00 · Gym</div>
+        <div style="background:#1e293b;border-radius:20px;padding:4px 10px;color:#475569;font-size:10px;">+2 más</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Violeta</h3>
+      <p>#8b5cf6→#a855f7 — Gradiente violeta puro. Más oscuro y misterioso que el índigo. Vibe premium/creativo.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Hacé click en tu favorito o escribime en el terminal.</p>
