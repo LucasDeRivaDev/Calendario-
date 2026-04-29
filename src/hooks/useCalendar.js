@@ -1,5 +1,5 @@
 // src/hooks/useCalendar.js
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Holidays from 'date-holidays'
 
 const STORAGE_KEY = 'calendario-argentina-v1'
@@ -160,7 +160,11 @@ export function useCalendar() {
   const activeProfile = profiles.find(p => p.id === activeProfileId) || profiles[0]
   const monthDays = getMonthMatrix(viewDate)
   const currentMonth = viewDate.getMonth()
-  const holidayMap = buildHolidayMap(viewDate.getFullYear())
+  const holidayMap = useMemo(
+    () => buildHolidayMap(viewDate.getFullYear()),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [viewDate.getFullYear()],
+  )
   const remindersByDay = activeProfile.reminders.reduce((acc, r) => {
     if (!acc[r.dateKey]) acc[r.dateKey] = []
     acc[r.dateKey].push(r)
@@ -249,12 +253,12 @@ export function useCalendar() {
     const reminder = createReminder(selectedDateKey, form)
     setProfiles(cur =>
       cur.map(p =>
-        p.id === activeProfile.id
+        p.id === activeProfileId
           ? { ...p, reminders: [...p.reminders, reminder] }
           : p,
       ),
     )
-    setForm(EMPTY_FORM)
+    setForm({ ...EMPTY_FORM })
   }
 
   function startEditReminder(reminder) {
@@ -269,7 +273,7 @@ export function useCalendar() {
 
   function cancelEditReminder() {
     setEditingReminderId(null)
-    setForm(EMPTY_FORM)
+    setForm({ ...EMPTY_FORM })
   }
 
   function updateReminder(event) {
@@ -277,7 +281,7 @@ export function useCalendar() {
     if (!form.title.trim()) return
     setProfiles(cur =>
       cur.map(p =>
-        p.id === activeProfile.id
+        p.id === activeProfileId
           ? {
               ...p,
               reminders: p.reminders.map(r =>
@@ -290,14 +294,14 @@ export function useCalendar() {
       ),
     )
     setEditingReminderId(null)
-    setForm(EMPTY_FORM)
+    setForm({ ...EMPTY_FORM })
   }
 
   function removeReminder(reminderId) {
     if (editingReminderId === reminderId) cancelEditReminder()
     setProfiles(cur =>
       cur.map(p =>
-        p.id === activeProfile.id
+        p.id === activeProfileId
           ? { ...p, reminders: p.reminders.filter(r => r.id !== reminderId) }
           : p,
       ),
