@@ -1002,196 +1002,204 @@ textarea {
   }
 }
 
-/* ─── Day list view ────────────────────────────────────────────────── */
-.day-list-panel {
+/* ─── Day view (single day) ────────────────────────────────────────── */
+.day-view-panel {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: 0;
 }
 
-.day-list-scroll {
+/* Número grande del día */
+.day-view-hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 6px 20px;
+}
+
+.day-view-big-num {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 10vw, 110px);
+  font-weight: 900;
+  color: var(--text-muted);
+  line-height: 1;
+  letter-spacing: -4px;
+  opacity: 0.25;
+  transition: color 200ms ease, opacity 200ms ease;
+}
+
+.day-view-hero.today .day-view-big-num {
+  color: var(--accent);
+  opacity: 1;
+}
+
+.day-view-hero-info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  overflow-y: auto;
+  gap: 4px;
+}
+
+.day-view-weekday {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.day-view-month {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-transform: capitalize;
+}
+
+.day-view-today-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 3px 10px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.day-view-separator {
+  height: 1px;
+  background: var(--border);
+  margin: 0 0 16px;
+}
+
+/* Cuerpo de eventos */
+.day-view-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   flex: 1;
-  padding-right: 4px;
-  /* scrollbar sutil */
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
 
-.day-list-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-.day-list-scroll::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 4px;
-}
-
-.day-list-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 9px 12px;
-  background: var(--bg-deep);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: inherit;
-  text-align: left;
-  transition: border-color 140ms ease, background 140ms ease;
-  cursor: pointer;
-  flex: none;
-}
-
-.day-list-row:hover {
-  background: var(--bg-elevated);
-  border-color: var(--border-hover);
-}
-
-.day-list-row.today {
-  border-color: rgba(6, 182, 212, 0.45);
-  background: rgba(6, 182, 212, 0.04);
-}
-
-.day-list-row.selected {
-  border-color: var(--accent);
-  background: rgba(6, 182, 212, 0.1);
-}
-
-.day-list-row.weekend {
-  opacity: 0.7;
-}
-
-.day-list-row.weekend.today,
-.day-list-row.weekend.selected {
-  opacity: 1;
-}
-
-/* Columna izquierda con número y nombre del día */
-.day-list-date {
+.day-view-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1px;
-  width: 32px;
+  justify-content: center;
+  gap: 10px;
+  flex: 1;
+  min-height: 160px;
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border-radius: 16px;
+  border: 1px dashed var(--border);
+  padding: 28px;
+}
+
+.day-view-empty p {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.day-view-empty span {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+/* Tarjeta de evento */
+.day-view-event,
+.day-view-holiday {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 15px;
+  border: 1px solid var(--border);
+}
+
+.day-view-event {
+  background: var(--bg-elevated);
+}
+
+.day-view-holiday {
+  background: rgba(251, 146, 60, 0.06);
+  border-color: rgba(251, 146, 60, 0.2);
+}
+
+.day-view-event-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: none;
 }
 
-.day-list-num {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--text-muted);
-  line-height: 1;
-}
-
-.day-list-name {
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  opacity: 0.7;
-}
-
-.day-list-row.today .day-list-num,
-.day-list-row.today .day-list-name {
+.reminder-icon {
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
   color: var(--accent);
 }
 
-.day-list-row.selected .day-list-num,
-.day-list-row.selected .day-list-name {
-  color: var(--accent-bright);
+.holiday-icon {
+  background: rgba(251, 146, 60, 0.12);
+  border: 1px solid rgba(251, 146, 60, 0.25);
+  color: var(--holiday);
 }
 
-/* Línea separadora */
-.day-list-divider {
-  width: 1px;
-  align-self: stretch;
-  background: var(--border);
-  flex: none;
-}
-
-/* Contenido central */
-.day-list-content {
-  flex: 1;
+.day-view-event-copy {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
   min-width: 0;
 }
 
-.day-list-empty {
+.day-view-event-copy strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.day-view-event-time {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.day-view-event-notes {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 2px 0 0;
+}
+
+.day-view-event-label {
+  display: inline-flex;
+  width: fit-content;
+  padding: 2px 8px;
+  background: rgba(99, 102, 241, 0.12);
+  color: #818cf8;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.day-view-holiday .day-view-event-copy strong {
+  color: var(--holiday);
+}
+
+.day-view-holiday .day-view-event-copy span {
   font-size: 11px;
   color: var(--text-muted);
-  opacity: 0.5;
-  font-style: italic;
-}
-
-.day-list-holiday {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  background: var(--holiday-dim);
-  color: var(--holiday);
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 500;
-}
-
-.day-list-event {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px;
-  background: rgba(6, 182, 212, 0.1);
-  border-left: 2px solid var(--accent);
-  border-radius: 6px;
-  color: var(--accent-bright);
-  font-size: 10px;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.day-list-event-time {
-  font-weight: 700;
-  flex: none;
-  color: var(--accent);
-}
-
-.day-list-event-title {
-  font-weight: 500;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.day-list-event-notes {
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-style: italic;
-}
-
-/* Badge derecho */
-.day-list-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  background: rgba(6, 182, 212, 0.15);
-  color: var(--accent);
-  border-radius: 50%;
-  font-size: 10px;
-  font-weight: 700;
-  flex: none;
 }
 
 /* ─── Notepad panel ────────────────────────────────────────────────── */

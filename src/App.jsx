@@ -6,7 +6,7 @@ import { HeroBar } from './components/HeroBar'
 import { ProfilePanel } from './components/ProfilePanel'
 import { CalendarPanel } from './components/CalendarPanel'
 import { WeekView } from './components/WeekView'
-import { DayListView } from './components/DayListView'
+import { DayView } from './components/DayListView'
 import { DetailsPanel } from './components/DetailsPanel'
 import { AlarmToast } from './components/AlarmToast'
 import { NotepadPanel } from './components/NotepadPanel'
@@ -71,7 +71,7 @@ function App() {
           onClick={() => setViewMode('day')}
         >
           <List size={13} />
-          Diario
+          Día
         </button>
       </div>
 
@@ -121,17 +121,12 @@ function App() {
           />
         )}
         {viewMode === 'day' && (
-          <DayListView
-            viewDate={cal.viewDate}
-            monthDays={cal.monthDays}
-            currentMonth={cal.currentMonth}
+          <DayView
+            selectedDateKey={cal.selectedDateKey}
             holidayMap={cal.holidayMap}
             remindersByDay={cal.remindersByDay}
-            selectedDateKey={cal.selectedDateKey}
             todayKey={cal.todayKey}
             onSelectDate={cal.setSelectedDateKey}
-            onPrevMonth={handlePrevMonth}
-            onNextMonth={handleNextMonth}
             onGoToday={handleGoToday}
           />
         )}

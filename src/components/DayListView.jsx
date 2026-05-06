@@ -1,119 +1,110 @@
 // src/components/DayListView.jsx
-import { useRef, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, CalendarClock, Tag } from 'lucide-react'
-import { formatDateKey, formatMonthLabel } from '../hooks/useCalendar'
+import { ChevronLeft, ChevronRight, CalendarClock, Tag, Sun } from 'lucide-react'
+import { formatDateKey } from '../hooks/useCalendar'
 
-const DAY_FULL = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-const DAY_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+const DAY_FULL  = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+const MONTH_GEN = [
+  'enero','febrero','marzo','abril','mayo','junio',
+  'julio','agosto','septiembre','octubre','noviembre','diciembre'
+]
 
-export function DayListView({
-  viewDate,
-  monthDays,
-  currentMonth,
+export function DayView({
+  selectedDateKey,
   holidayMap,
   remindersByDay,
-  selectedDateKey,
   todayKey,
   onSelectDate,
-  onPrevMonth,
-  onNextMonth,
   onGoToday,
 }) {
-  const todayRef = useRef(null)
+  const day     = new Date(`${selectedDateKey}T00:00:00`)
+  const reminders = remindersByDay[selectedDateKey] || []
+  const holidays  = holidayMap[selectedDateKey]    || []
+  const isToday   = selectedDateKey === todayKey
+  const dayIndex  = day.getDay()
 
-  // Scroll al día de hoy (o al seleccionado) al montar o cambiar de mes
-  useEffect(() => {
-    if (todayRef.current) {
-      todayRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    }
-  }, [viewDate])
+  function handlePrevDay() {
+    const d = new Date(day)
+    d.setDate(d.getDate() - 1)
+    onSelectDate(formatDateKey(d))
+  }
 
-  const daysInMonth = monthDays.filter(d => d.getMonth() === currentMonth)
+  function handleNextDay() {
+    const d = new Date(day)
+    d.setDate(d.getDate() + 1)
+    onSelectDate(formatDateKey(d))
+  }
 
   return (
-    <section className="panel day-list-panel">
-      {/* Header */}
+    <section className="panel day-view-panel">
+      {/* Header con navegación */}
       <div className="panel-header month-header">
         <div>
-          <p className="section-kicker">Vista diaria</p>
-          <h2>{formatMonthLabel(viewDate)}</h2>
+          <p className="section-kicker">Vista del día</p>
+          <h2>
+            {DAY_FULL[dayIndex]}, {day.getDate()} de {MONTH_GEN[day.getMonth()]} {day.getFullYear()}
+          </h2>
         </div>
         <div className="month-actions">
-          <button type="button" className="icon-button" aria-label="Mes anterior" onClick={onPrevMonth}>
+          <button type="button" className="icon-button" aria-label="Día anterior" onClick={handlePrevDay}>
             <ChevronLeft size={16} />
           </button>
           <button type="button" className="today-button" onClick={onGoToday}>
             Hoy
           </button>
-          <button type="button" className="icon-button" aria-label="Mes siguiente" onClick={onNextMonth}>
+          <button type="button" className="icon-button" aria-label="Día siguiente" onClick={handleNextDay}>
             <ChevronRight size={16} />
           </button>
         </div>
       </div>
 
-      {/* Lista de días */}
-      <div className="day-list-scroll">
-        {daysInMonth.map(day => {
-          const dateKey = formatDateKey(day)
-          const reminders = remindersByDay[dateKey] || []
-          const holidays = holidayMap[dateKey] || []
-          const isToday = dateKey === todayKey
-          const isSelected = dateKey === selectedDateKey
-          const dayIndex = day.getDay() // 0=Dom
-          const isWeekend = dayIndex === 0 || dayIndex === 6
+      {/* Número del día grande */}
+      <div className={`day-view-hero ${isToday ? 'today' : ''}`}>
+        <span className="day-view-big-num">{day.getDate()}</span>
+        <div className="day-view-hero-info">
+          <span className="day-view-weekday">{DAY_FULL[dayIndex]}</span>
+          <span className="day-view-month">{MONTH_GEN[day.getMonth()]} {day.getFullYear()}</span>
+          {isToday && <span className="day-view-today-badge">Hoy</span>}
+        </div>
+      </div>
 
-          return (
-            <button
-              key={dateKey}
-              type="button"
-              ref={isToday ? todayRef : null}
-              className={[
-                'day-list-row',
-                isToday ? 'today' : '',
-                isSelected ? 'selected' : '',
-                isWeekend ? 'weekend' : '',
-              ].join(' ')}
-              onClick={() => onSelectDate(dateKey)}
-            >
-              {/* Columna izquierda: número y nombre del día */}
-              <div className="day-list-date">
-                <span className="day-list-num">{day.getDate()}</span>
-                <span className="day-list-name">{DAY_SHORT[dayIndex]}</span>
-              </div>
+      {/* Separador */}
+      <div className="day-view-separator" />
 
-              {/* Separador vertical */}
-              <div className="day-list-divider" />
+      {/* Contenido: feriados + eventos */}
+      <div className="day-view-body">
+        {holidays.length === 0 && reminders.length === 0 && (
+          <div className="day-view-empty">
+            <Sun size={32} strokeWidth={1.2} />
+            <p>No hay eventos para este día</p>
+            <span>Usá el panel de detalles para agregar un recordatorio</span>
+          </div>
+        )}
 
-              {/* Contenido: feriados + recordatorios */}
-              <div className="day-list-content">
-                {holidays.length === 0 && reminders.length === 0 && (
-                  <span className="day-list-empty">Sin eventos</span>
-                )}
-                {holidays.map((h, i) => (
-                  <div key={i} className="day-list-holiday">
-                    <Tag size={10} />
-                    {h.name}
-                  </div>
-                ))}
-                {reminders.map(r => (
-                  <div key={r.id} className="day-list-event">
-                    <CalendarClock size={10} />
-                    <span className="day-list-event-time">{r.time}</span>
-                    <span className="day-list-event-title">{r.title}</span>
-                    {r.notes && <span className="day-list-event-notes">— {r.notes}</span>}
-                  </div>
-                ))}
-              </div>
+        {holidays.map((h, i) => (
+          <div key={i} className="day-view-holiday">
+            <div className="day-view-event-icon holiday-icon">
+              <Tag size={14} />
+            </div>
+            <div className="day-view-event-copy">
+              <strong>{h.name}</strong>
+              <span>Feriado nacional</span>
+            </div>
+          </div>
+        ))}
 
-              {/* Badge con cantidad total */}
-              {(reminders.length + holidays.length) > 0 && (
-                <span className="day-list-badge">
-                  {reminders.length + holidays.length}
-                </span>
-              )}
-            </button>
-          )
-        })}
+        {reminders.map(r => (
+          <div key={r.id} className="day-view-event">
+            <div className="day-view-event-icon reminder-icon">
+              <CalendarClock size={14} />
+            </div>
+            <div className="day-view-event-copy">
+              <strong>{r.title}</strong>
+              <span className="day-view-event-time">{r.time}</span>
+              {r.notes && <p className="day-view-event-notes">{r.notes}</p>}
+              {r.label && <span className="day-view-event-label">{r.label}</span>}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   )
