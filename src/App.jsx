@@ -1,17 +1,19 @@
 // src/App.jsx
 import { useState } from 'react'
-import { CalendarDays, LayoutGrid } from 'lucide-react'
+import { CalendarDays, LayoutGrid, List } from 'lucide-react'
 import { useCalendar, formatDateKey } from './hooks/useCalendar'
 import { HeroBar } from './components/HeroBar'
 import { ProfilePanel } from './components/ProfilePanel'
 import { CalendarPanel } from './components/CalendarPanel'
 import { WeekView } from './components/WeekView'
+import { DayListView } from './components/DayListView'
 import { DetailsPanel } from './components/DetailsPanel'
 import { AlarmToast } from './components/AlarmToast'
+import { NotepadPanel } from './components/NotepadPanel'
 import './App.css'
 
 function App() {
-  const [viewMode, setViewMode] = useState('month') // 'month' | 'week'
+  const [viewMode, setViewMode] = useState('month') // 'month' | 'week' | 'day'
   const cal = useCalendar()
 
   function handlePrevMonth() {
@@ -63,6 +65,14 @@ function App() {
           <LayoutGrid size={13} />
           Semanal
         </button>
+        <button
+          type="button"
+          className={`toggle-btn ${viewMode === 'day' ? 'active' : ''}`}
+          onClick={() => setViewMode('day')}
+        >
+          <List size={13} />
+          Diario
+        </button>
       </div>
 
       <section className="workspace">
@@ -83,7 +93,7 @@ function App() {
           onRequestNotifications={cal.requestNotifications}
         />
 
-        {viewMode === 'month' ? (
+        {viewMode === 'month' && (
           <CalendarPanel
             viewDate={cal.viewDate}
             monthDays={cal.monthDays}
@@ -97,7 +107,8 @@ function App() {
             onNextMonth={handleNextMonth}
             onGoToday={handleGoToday}
           />
-        ) : (
+        )}
+        {viewMode === 'week' && (
           <WeekView
             selectedDateKey={cal.selectedDateKey}
             remindersByDay={cal.remindersByDay}
@@ -106,6 +117,21 @@ function App() {
             onSelectDate={cal.setSelectedDateKey}
             onPrevWeek={handlePrevWeek}
             onNextWeek={handleNextWeek}
+            onGoToday={handleGoToday}
+          />
+        )}
+        {viewMode === 'day' && (
+          <DayListView
+            viewDate={cal.viewDate}
+            monthDays={cal.monthDays}
+            currentMonth={cal.currentMonth}
+            holidayMap={cal.holidayMap}
+            remindersByDay={cal.remindersByDay}
+            selectedDateKey={cal.selectedDateKey}
+            todayKey={cal.todayKey}
+            onSelectDate={cal.setSelectedDateKey}
+            onPrevMonth={handlePrevMonth}
+            onNextMonth={handleNextMonth}
             onGoToday={handleGoToday}
           />
         )}
@@ -125,6 +151,8 @@ function App() {
           onRemoveReminder={cal.removeReminder}
         />
       </section>
+
+      <NotepadPanel />
 
       <AlarmToast alarmEvent={cal.alarmEvent} onClose={() => cal.setAlarmEvent(null)} />
     </main>
