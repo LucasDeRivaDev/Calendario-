@@ -79,6 +79,7 @@ function App() {
           onNewProfileNameChange={cal.setNewProfileName}
           onAddProfile={cal.addProfile}
           onUpdateProfileColor={cal.updateProfileColor}
+          onRemoveProfile={cal.removeProfile}
           onRequestNotifications={cal.requestNotifications}
         />
 

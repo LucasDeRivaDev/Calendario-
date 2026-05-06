@@ -218,7 +218,7 @@
 .profile-card {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0;
   width: 100%;
   padding: 11px 12px;
   border-radius: 13px;
@@ -235,6 +235,34 @@
 .profile-card.active {
   background: rgba(6, 182, 212, 0.07);
   border-color: var(--accent-border);
+}
+
+.profile-card .profile-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.delete-profile-btn {
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity 150ms ease, color 150ms ease;
+}
+
+.profile-card:hover .delete-profile-btn {
+  opacity: 1;
+}
+
+.delete-profile-btn:hover {
+  color: var(--danger) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
 }
 
 .profile-dot {

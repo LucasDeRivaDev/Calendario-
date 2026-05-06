@@ -308,6 +308,15 @@ export function useCalendar() {
     )
   }
 
+  function removeProfile(profileId) {
+    if (profiles.length <= 1) return
+    const remaining = profiles.filter(p => p.id !== profileId)
+    setProfiles(remaining)
+    if (activeProfileId === profileId) {
+      setActiveProfileId(remaining[0].id)
+    }
+  }
+
   function requestNotifications() {
     if (typeof Notification === 'undefined') return
     Notification.requestPermission().then(p => setNotificationPermission(p))
@@ -334,6 +343,8 @@ export function useCalendar() {
     addReminder, updateReminder,
     startEditReminder, cancelEditReminder,
     updateForm,
+    removeReminder,
+    removeProfile,
     requestNotifications,
   }
 }

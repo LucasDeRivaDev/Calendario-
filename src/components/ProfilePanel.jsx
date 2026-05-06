@@ -1,5 +1,5 @@
 // src/components/ProfilePanel.jsx
-import { Bell, CalendarDays, Check, Clock3, Plus, UserRound } from 'lucide-react'
+import { Bell, CalendarDays, Check, Clock3, Plus, Trash2, UserRound } from 'lucide-react'
 import { SWATCH_COLORS } from '../hooks/useCalendar'
 
 export function ProfilePanel({
@@ -15,6 +15,7 @@ export function ProfilePanel({
   onNewProfileNameChange,
   onAddProfile,
   onUpdateProfileColor,
+  onRemoveProfile,
   onRequestNotifications,
 }) {
   return (
@@ -36,20 +37,34 @@ export function ProfilePanel({
 
       <div className="profiles-list">
         {profiles.map(profile => (
-          <button
+          <div
             key={profile.id}
-            type="button"
             className={`profile-card ${profile.id === activeProfile.id ? 'active' : ''}`}
-            onClick={() => onSetActiveProfile(profile.id)}
             style={{ '--profile-accent': profile.color }}
           >
-            <span className="profile-dot" />
-            <span className="profile-copy">
-              <strong>{profile.name}</strong>
-              <small>{profile.reminders.length} recordatorios</small>
-            </span>
-            <UserRound size={14} />
-          </button>
+            <button
+              type="button"
+              className="profile-main"
+              onClick={() => onSetActiveProfile(profile.id)}
+            >
+              <span className="profile-dot" />
+              <span className="profile-copy">
+                <strong>{profile.name}</strong>
+                <small>{profile.reminders.length} recordatorios</small>
+              </span>
+              <UserRound size={14} />
+            </button>
+            {profiles.length > 1 && (
+              <button
+                type="button"
+                className="icon-button delete-profile-btn"
+                aria-label={`Eliminar ${profile.name}`}
+                onClick={() => onRemoveProfile(profile.id)}
+              >
+                <Trash2 size={13} />
+              </button>
+            )}
+          </div>
         ))}
       </div>
 
